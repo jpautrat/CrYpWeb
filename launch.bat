@@ -9,14 +9,30 @@ echo ML KRAKEN PRO LIVE TRADER - LAUNCHER
 echo ================================================================================
 echo.
 
-REM Check if configured
+REM Check if configured, create if missing
 if not exist ".env" (
-    echo ERROR: System not configured!
-    echo.
-    echo Please run setup.bat first to configure the system.
-    echo.
-    pause
-    exit /b 1
+    echo .env file not found. Creating from template...
+    if exist ".env.example" (
+        copy ".env.example" ".env" >nul
+        echo.
+        echo .env file created from template.
+        echo.
+        echo IMPORTANT: You must edit .env and add your 5 Kraken API keys!
+        echo.
+        echo Steps:
+        echo   1. Open .env in Notepad
+        echo   2. Find: KRAKEN_KEY_1=YOUR_API_KEY_HERE
+        echo   3. Replace with your actual keys (all 5 pairs)
+        echo   4. Save and run this script again
+        echo.
+        notepad .env
+        pause
+        exit /b 0
+    ) else (
+        echo ERROR: .env.example not found
+        pause
+        exit /b 1
+    )
 )
 
 REM Pre-flight checks

@@ -1,18 +1,28 @@
 @echo off
 REM ML Kraken Pro Live Trader - Configuration Helper
-REM This script helps configure and validate the trading system
+REM This script validates configuration from .env file
 
 echo ================================================================================
-echo ML KRAKEN PRO LIVE TRADER - CONFIGURATION
+echo ML KRAKEN PRO LIVE TRADER - CONFIGURATION VALIDATOR
 echo ================================================================================
 echo.
 
-REM Check if .env exists
+REM Check if .env exists, if not create from example
 if not exist ".env" (
-    echo ERROR: Configuration file (.env) not found
-    echo Please run install.bat first
-    pause
-    exit /b 1
+    echo .env file not found. Creating from template...
+    if exist ".env.example" (
+        copy ".env.example" ".env" >nul
+        echo .env file created from .env.example
+        echo.
+        echo IMPORTANT: Edit .env file and add your 5 Kraken API keys
+        echo           before running the bot!
+        echo.
+    ) else (
+        echo ERROR: .env.example not found
+        echo Please ensure .env.example exists in this directory
+        pause
+        exit /b 1
+    )
 )
 
 :menu
